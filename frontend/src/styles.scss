@@ -1,0 +1,282 @@
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Custom base styles
+@layer base {
+  * {
+    @apply border-midnight-200;
+  }
+  
+  body {
+    @apply font-body text-midnight-900 bg-midnight-50 antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-semibold tracking-tight;
+  }
+}
+
+// Custom components
+@layer components {
+  // Cards
+  .card {
+    @apply bg-white rounded-2xl shadow-card transition-all duration-300;
+    
+    &:hover {
+      @apply shadow-card-hover;
+    }
+  }
+  
+  .card-header {
+    @apply px-6 py-4 border-b border-midnight-100;
+  }
+  
+  .card-body {
+    @apply p-6;
+  }
+  
+  // Buttons
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-primary {
+    @apply btn bg-nexus-600 text-white hover:bg-nexus-700 focus:ring-nexus-500 active:scale-[0.98] shadow-sm;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-midnight-100 text-midnight-700 hover:bg-midnight-200 focus:ring-midnight-500;
+  }
+  
+  .btn-outline {
+    @apply btn bg-white text-midnight-700 border-2 border-midnight-200 hover:bg-midnight-50 hover:border-midnight-300 focus:ring-nexus-500 active:scale-[0.98];
+  }
+  
+  .btn-ghost {
+    @apply btn bg-transparent text-midnight-600 hover:bg-midnight-100 focus:ring-midnight-300;
+  }
+  
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+  }
+  
+  .btn-icon {
+    @apply p-2.5 rounded-xl;
+  }
+  
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs rounded-lg gap-1.5;
+  }
+  
+  .btn-lg {
+    @apply px-6 py-3 text-base rounded-xl gap-2.5;
+  }
+  
+  // Form inputs
+  .input {
+    @apply block w-full px-4 py-2.5 rounded-xl border border-midnight-200 bg-white text-midnight-900 placeholder-midnight-400 transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-nexus-500 focus:border-nexus-500;
+    @apply disabled:bg-midnight-50 disabled:cursor-not-allowed;
+  }
+  
+  .input-error {
+    @apply border-red-500 focus:ring-red-500 focus:border-red-500;
+  }
+  
+  .label {
+    @apply block text-sm font-medium text-midnight-700 mb-1.5;
+  }
+  
+  .select {
+    @apply input appearance-none bg-no-repeat bg-right pr-10;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.75rem center;
+    background-size: 1.25em 1.25em;
+  }
+  
+  .textarea {
+    @apply input resize-none;
+  }
+  
+  // Badges
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .badge-success {
+    @apply badge bg-nexus-100 text-nexus-800;
+  }
+  
+  .badge-warning {
+    @apply badge bg-amber-100 text-amber-800;
+  }
+  
+  .badge-danger {
+    @apply badge bg-red-100 text-red-800;
+  }
+  
+  .badge-info {
+    @apply badge bg-accent/10 text-accent-dark;
+  }
+  
+  .badge-neutral {
+    @apply badge bg-midnight-100 text-midnight-700;
+  }
+  
+  // Tables
+  .table {
+    @apply w-full text-sm text-left;
+    
+    thead {
+      @apply bg-midnight-50 text-midnight-600 uppercase text-xs tracking-wider;
+      
+      th {
+        @apply px-6 py-3 font-semibold;
+      }
+    }
+    
+    tbody {
+      tr {
+        @apply border-b border-midnight-100 hover:bg-midnight-50/50 transition-colors;
+        
+        td {
+          @apply px-6 py-4;
+        }
+      }
+    }
+  }
+  
+  // Navigation
+  .nav-item {
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-xl text-midnight-600 font-medium transition-all duration-200;
+    @apply hover:bg-midnight-100 hover:text-midnight-900;
+    
+    &.active {
+      @apply bg-nexus-100 text-nexus-800;
+    }
+  }
+  
+  // Sidebar
+  .sidebar {
+    @apply fixed left-0 top-0 h-screen w-64 bg-white border-r border-midnight-100 flex flex-col;
+  }
+  
+  // Stats cards
+  .stat-card {
+    @apply card p-6 flex flex-col;
+    
+    .stat-label {
+      @apply text-sm text-midnight-500 font-medium;
+    }
+    
+    .stat-value {
+      @apply text-3xl font-display font-bold text-midnight-900 mt-1;
+    }
+    
+    .stat-change {
+      @apply text-sm mt-2 flex items-center gap-1;
+      
+      &.positive {
+        @apply text-nexus-600;
+      }
+      
+      &.negative {
+        @apply text-red-600;
+      }
+    }
+  }
+  
+  // Avatar
+  .avatar {
+    @apply rounded-full bg-nexus-100 flex items-center justify-center overflow-hidden;
+    
+    &.avatar-sm {
+      @apply w-8 h-8 text-xs;
+    }
+    
+    &.avatar-md {
+      @apply w-10 h-10 text-sm;
+    }
+    
+    &.avatar-lg {
+      @apply w-12 h-12 text-base;
+    }
+    
+    &.avatar-xl {
+      @apply w-16 h-16 text-lg;
+    }
+    
+    img {
+      @apply w-full h-full object-cover;
+    }
+  }
+  
+  // Empty state
+  .empty-state {
+    @apply flex flex-col items-center justify-center py-16 text-center;
+    
+    .empty-icon {
+      @apply w-16 h-16 text-midnight-300 mb-4;
+    }
+    
+    .empty-title {
+      @apply text-lg font-semibold text-midnight-700;
+    }
+    
+    .empty-description {
+      @apply text-midnight-500 mt-1 max-w-sm;
+    }
+  }
+  
+  // Skeleton loading
+  .skeleton {
+    @apply animate-pulse bg-midnight-200 rounded;
+  }
+}
+
+// Utilities
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-nexus-600 to-accent;
+  }
+  
+  .glass {
+    @apply bg-white/70 backdrop-blur-lg;
+  }
+  
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.midnight.300') transparent;
+    
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: theme('colors.midnight.300');
+      border-radius: 3px;
+    }
+  }
+}
+
+// Page transitions with staggered animation
+.page-enter {
+  @apply animate-fade-in;
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
