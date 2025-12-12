@@ -2,7 +2,7 @@
 
 A modern, enterprise-grade Customer Relationship Management system built with the **AL-P Stack** (Angular 22 + Laravel 12 + PostgreSQL).
 
-## 🚀 Features
+## Features
 
 ### Core Modules
 
@@ -20,7 +20,7 @@ A modern, enterprise-grade Customer Relationship Management system built with th
 - **Real-time Updates** - Laravel Reverb WebSocket broadcasting
 - **Full-text Search** - GIN indexed search across all entities
 
-## 📦 Project Structure
+## Project Structure
 
 ```
 CRM/
@@ -55,7 +55,7 @@ CRM/
             └── layout/
 ```
 
-## 🛠️ Prerequisites
+## Prerequisites
 
 - **PHP** >= 8.2
 - **Composer** >= 2.x
@@ -63,7 +63,7 @@ CRM/
 - **PostgreSQL** >= 16 with `ltree` extension
 - **npm** >= 10.x
 
-## ⚙️ Installation
+## Installation
 
 ### Backend Setup
 
@@ -109,7 +109,7 @@ npm install
 ng serve
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### PostgreSQL LTree Extension
 
@@ -140,7 +140,7 @@ export const environment = {
 };
 ```
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### Organizations
 - `GET /api/organizations` - List with pagination
@@ -179,7 +179,7 @@ export const environment = {
 ### Global Search
 - `GET /api/search?q=` - Search across all entities
 
-## 🎨 UI/UX
+## UI/UX
 
 Built with **Tailwind CSS** featuring:
 - Custom Nexus color palette (forest green aesthetic)
@@ -188,7 +188,7 @@ Built with **Tailwind CSS** featuring:
 - Glass morphism effects
 - Responsive design
 
-## 🏗️ Architecture
+## Architecture
 
 ### Backend (Laravel)
 
@@ -216,11 +216,11 @@ API Service
     ↓ HTTP calls
 ```
 
-## 📄 License
+## License
 
 Proprietary - Entheospace © 2025
 
-## 🤝 Contributing
+## Contributing
 
 Contact the development team for contribution guidelines.
 
