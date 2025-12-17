@@ -126,3 +126,5 @@ export function getProposalStatusConfig(status: ProposalStatus) {
   return PROPOSAL_STATUSES.find(s => s.value === status) ?? PROPOSAL_STATUSES[0];
 }
 
+
+

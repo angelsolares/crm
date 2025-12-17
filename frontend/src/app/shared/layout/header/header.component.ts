@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { TitleCasePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../core/services/api.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { Organization } from '../../../core/models/organization.model';
 import { Contact } from '../../../core/models/contact.model';
 import { Project } from '../../../core/models/project.model';
@@ -144,10 +145,43 @@ interface SearchResults {
         </button>
         
         <!-- User menu -->
-        <div class="flex items-center gap-3 pl-3 border-l border-midnight-100">
-          <div class="avatar avatar-md bg-nexus-100 text-nexus-700 font-semibold">
-            AU
-          </div>
+        <div class="relative flex items-center gap-3 pl-3 border-l border-midnight-100">
+          <button 
+            (click)="toggleUserMenu()"
+            class="flex items-center gap-3 hover:bg-midnight-50 rounded-lg px-2 py-1 transition-colors"
+          >
+            <div class="avatar avatar-md bg-nexus-100 text-nexus-700 font-semibold">
+              {{ getUserInitials() }}
+            </div>
+            <div class="hidden sm:block text-left">
+              <div class="text-sm font-medium text-midnight-900">{{ authService.user()?.name }}</div>
+              <div class="text-xs text-midnight-500 capitalize">{{ authService.user()?.role?.replace('_', ' ') }}</div>
+            </div>
+            <svg class="w-4 h-4 text-midnight-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          
+          <!-- User Dropdown -->
+          @if (showUserMenu()) {
+            <div class="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-card-hover border border-midnight-100 overflow-hidden z-50 animate-scale-in">
+              <div class="px-4 py-3 border-b border-midnight-100">
+                <div class="text-sm font-medium text-midnight-900">{{ authService.user()?.name }}</div>
+                <div class="text-xs text-midnight-500">{{ authService.user()?.email }}</div>
+              </div>
+              <div class="py-2">
+                <button 
+                  (click)="onLogout()"
+                  class="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-3"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  Sign out
+                </button>
+              </div>
+            </div>
+          }
         </div>
       </div>
     </header>
@@ -157,11 +191,13 @@ interface SearchResults {
 export class HeaderComponent {
   private api = inject(ApiService);
   private router = inject(Router);
+  authService = inject(AuthService);
   
   toggleSidebar = output<void>();
   
   searchQuery = '';
   showResults = signal(false);
+  showUserMenu = signal(false);
   isSearching = signal(false);
   searchResults = signal<SearchResults>({ organizations: [], contacts: [], projects: [] });
   
@@ -206,6 +242,26 @@ export class HeaderComponent {
     this.showResults.set(false);
     this.searchQuery = '';
     this.router.navigate([basePath, id]);
+  }
+  
+  getUserInitials(): string {
+    const user = this.authService.user();
+    if (!user?.name) return 'U';
+    
+    const names = user.name.split(' ');
+    if (names.length >= 2) {
+      return (names[0].charAt(0) + names[1].charAt(0)).toUpperCase();
+    }
+    return names[0].charAt(0).toUpperCase();
+  }
+  
+  toggleUserMenu(): void {
+    this.showUserMenu.update(v => !v);
+  }
+  
+  onLogout(): void {
+    this.showUserMenu.set(false);
+    this.authService.logout();
   }
 }
 

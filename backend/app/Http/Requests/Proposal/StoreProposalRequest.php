@@ -75,3 +75,5 @@ class StoreProposalRequest extends FormRequest
     }
 }
 
+
+

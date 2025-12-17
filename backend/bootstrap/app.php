@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Configure aliases
         $middleware->alias([
             'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
         ]);
 
         // Trust proxies

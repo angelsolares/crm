@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { managerGuard } from '../../core/guards/role.guard';
 
 export const PROJECT_ROUTES: Routes = [
   {
@@ -9,6 +10,7 @@ export const PROJECT_ROUTES: Routes = [
   {
     path: 'new',
     loadComponent: () => import('./project-form/project-form.component').then(m => m.ProjectFormComponent),
+    canActivate: [managerGuard], // Only admin and manager can create projects
     title: 'New Project | Entheo Nexus'
   },
   {
@@ -22,4 +24,3 @@ export const PROJECT_ROUTES: Routes = [
     title: 'Edit Project | Entheo Nexus'
   }
 ];
-

@@ -4,11 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { TitleCasePipe, DatePipe } from '@angular/common';
 import { OrganizationState } from '../../../core/state/organization.state';
 import { OrganizationFilters } from '../../../core/models/organization.model';
+import { PermissionState } from '../../../core/state/permission.state';
+import { HasPermissionDirective, IsAdminDirective } from '../../../shared/directives/permission.directive';
 
 @Component({
   selector: 'app-organization-list',
   standalone: true,
-  imports: [RouterLink, FormsModule, TitleCasePipe, DatePipe],
+  imports: [RouterLink, FormsModule, TitleCasePipe, DatePipe, HasPermissionDirective, IsAdminDirective],
   template: `
     <div class="page-enter space-y-6">
       <!-- Page Header -->
@@ -17,7 +19,7 @@ import { OrganizationFilters } from '../../../core/models/organization.model';
           <h1 class="text-2xl font-display font-bold text-midnight-900">Organizations</h1>
           <p class="text-midnight-500 mt-1">Manage your corporate hierarchy and relationships.</p>
         </div>
-        <a routerLink="/organizations/new" class="btn-primary">
+        <a *hasPermission="'organizations.create'" routerLink="/organizations/new" class="btn-primary">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
           </svg>
@@ -113,7 +115,7 @@ import { OrganizationFilters } from '../../../core/models/organization.model';
               }
             </div>
             @if (!hasActiveFilters()) {
-              <a routerLink="/organizations/new" class="btn-primary mt-4">
+              <a *hasPermission="'organizations.create'" routerLink="/organizations/new" class="btn-primary mt-4">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
@@ -197,6 +199,7 @@ import { OrganizationFilters } from '../../../core/models/organization.model';
                     <td>
                       <div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <a 
+                          *hasPermission="'organizations.update'"
                           [routerLink]="['/organizations', org.id, 'edit']"
                           class="btn-ghost btn-icon"
                           title="Edit"
@@ -206,6 +209,7 @@ import { OrganizationFilters } from '../../../core/models/organization.model';
                           </svg>
                         </a>
                         <button 
+                          *hasPermission="'organizations.delete'"
                           (click)="deleteOrganization(org.id)"
                           class="btn-ghost btn-icon text-red-500 hover:bg-red-50"
                           title="Delete"
@@ -272,6 +276,7 @@ import { OrganizationFilters } from '../../../core/models/organization.model';
 })
 export class OrganizationListComponent implements OnInit {
   orgState = inject(OrganizationState);
+  permissionState = inject(PermissionState);
   
   searchQuery = '';
   filters = signal<OrganizationFilters>({});

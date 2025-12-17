@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { managerGuard } from '../../core/guards/role.guard';
 
 export const ORGANIZATION_ROUTES: Routes = [
   {
@@ -9,6 +10,7 @@ export const ORGANIZATION_ROUTES: Routes = [
   {
     path: 'new',
     loadComponent: () => import('./organization-form/organization-form.component').then(m => m.OrganizationFormComponent),
+    canActivate: [managerGuard], // Only admin and manager can create
     title: 'New Organization | Entheo Nexus'
   },
   {
@@ -19,7 +21,7 @@ export const ORGANIZATION_ROUTES: Routes = [
   {
     path: ':id/edit',
     loadComponent: () => import('./organization-form/organization-form.component').then(m => m.OrganizationFormComponent),
+    canActivate: [managerGuard], // Only admin and manager can edit
     title: 'Edit Organization | Entheo Nexus'
   }
 ];
-

@@ -3,11 +3,13 @@ import { RouterLink } from '@angular/router';
 import { TitleCasePipe, DecimalPipe } from '@angular/common';
 import { ProjectState } from '../../../core/state/project.state';
 import { PROJECT_STAGES, PROJECT_STATUSES } from '../../../core/models/project.model';
+import { PermissionState } from '../../../core/state/permission.state';
+import { HasPermissionDirective } from '../../../shared/directives/permission.directive';
 
 @Component({
   selector: 'app-project-list',
   standalone: true,
-  imports: [RouterLink, TitleCasePipe, DecimalPipe],
+  imports: [RouterLink, TitleCasePipe, DecimalPipe, HasPermissionDirective],
   template: `
     <div class="page-enter space-y-6">
       <!-- Page Header -->
@@ -16,7 +18,7 @@ import { PROJECT_STAGES, PROJECT_STATUSES } from '../../../core/models/project.m
           <h1 class="text-2xl font-display font-bold text-midnight-900">Projects</h1>
           <p class="text-midnight-500 mt-1">Track your sales pipeline and opportunities.</p>
         </div>
-        <a routerLink="/projects/new" class="btn-primary">
+        <a *hasPermission="'projects.create'" routerLink="/projects/new" class="btn-primary">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
           </svg>
@@ -52,7 +54,7 @@ import { PROJECT_STAGES, PROJECT_STATUSES } from '../../../core/models/project.m
             </svg>
             <div class="empty-title">No projects yet</div>
             <div class="empty-description">Start tracking your sales opportunities.</div>
-            <a routerLink="/projects/new" class="btn-primary mt-4">Create Project</a>
+            <a *hasPermission="'projects.create'" routerLink="/projects/new" class="btn-primary mt-4">Create Project</a>
           </div>
         } @else {
           <table class="table">
@@ -140,6 +142,7 @@ import { PROJECT_STAGES, PROJECT_STATUSES } from '../../../core/models/project.m
                         </svg>
                       </a>
                       <button 
+                        *hasPermission="'projects.delete'"
                         (click)="deleteProject(project.id, project.name)"
                         class="p-2 rounded-lg text-midnight-400 hover:text-red-600 hover:bg-red-50 transition-colors"
                         title="Delete"
@@ -162,6 +165,7 @@ import { PROJECT_STAGES, PROJECT_STATUSES } from '../../../core/models/project.m
 })
 export class ProjectListComponent implements OnInit {
   projectState = inject(ProjectState);
+  permissionState = inject(PermissionState);
   stages = PROJECT_STAGES;
   statuses = PROJECT_STATUSES;
   
